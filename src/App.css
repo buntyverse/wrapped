@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.cardMoprh{
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background: rgba(11, 18, 22, 0.40);
+  backdrop-filter: blur(30.399999618530273px);
+}
