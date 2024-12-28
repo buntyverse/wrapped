@@ -17,6 +17,7 @@ const DYDXData = ({ walletAddress }) => {
 
             let totalVolume = 0;
             let totalPnL = 0;
+            const tradedAssets = new Set();
 
             // Step 2: Process each subaccount
             for (const subaccount of subaccounts) {
@@ -35,8 +36,12 @@ const DYDXData = ({ walletAddress }) => {
 
                 // Calculate total volume from fills
                 fills.forEach((fill) => {
-                    
+                    console.log(fill)
                     totalVolume += parseFloat(fill.size*fill.price) || 0;
+                    if (fill.market) {
+                        const asset = fill.market.replace("-USD", "");
+                        tradedAssets.add(asset);
+                    }
                 });
 
                 // Fetch historical PnL for the subaccount
@@ -64,6 +69,7 @@ const DYDXData = ({ walletAddress }) => {
             setData({
                 totalVolume,
                 totalPnL,
+                tradedAssets: Array.from(tradedAssets),
             });
         } catch (error) {
             console.error("Error fetching DYDX data:", error.message);
@@ -81,6 +87,7 @@ const DYDXData = ({ walletAddress }) => {
                 <div>
                     <p>Total Volume: {data.totalVolume}</p>
                     <p>Total PnL: {data.totalPnL}</p>
+                    <p>Traded Assets: {data.tradedAssets.join(", ")}</p>
                 </div>
             )}
         </div>

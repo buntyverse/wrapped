@@ -10,10 +10,12 @@ const HyperliquidData = ({ walletAddress }) => {
         const perpetualsUrl = "https://api.hyperliquid.xyz/info";
 
         const payload = {
-            type:"userFillsByTime",
+            type:"historicalOrders",
             user: walletAddress,
-            startTime: new Date("2024-01-01T00:00:00Z").getTime(),
-            endTime: Date.now(),
+        };
+        const payload2 = {
+            type:"userFills",
+            user: walletAddress,
         };
 
         try {
@@ -31,31 +33,46 @@ const HyperliquidData = ({ walletAddress }) => {
                     "Content-Type": "application/json",
                 },
             });
-            const fills = response.data;
 
+            const fillResponse = await axios.post(url,payload2, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const orders = response.data;
+            const fills = fillResponse.data;
             let totalVolume = 0;
             let netPnL = 0;
             const tradedAssets = new Set();
+          
+            orders.forEach(order => {
+              console.log(order)
+                if(order.status == "filled") {
+                    const size = parseFloat(order.order.limitPx)*parseFloat(order.order.origSz);
+                    totalVolume += size || 0;      
+    }
 
-            fills.forEach(fill => {
-                console.log(fill)
-                const size = parseFloat(fill.sz*fill.px);
-                const pnl = parseFloat(fill.closedPnl)
-                totalVolume += size || 0;
-                netPnL += pnl || 0;
+    if (typeof order.coin === "string" && order.coin.startsWith("@")) {
+        const index = parseInt(order.coin.slice(1), 10);
+        if (perpetuals[index] && perpetuals[index].name) {
+            tradedAssets.add(perpetuals[index].name);
+        }
+    } else {
+        console.log(tradedAssets)
+        tradedAssets.add(order.order.coin);
+    }
 
+})
+    
+    fills.forEach(fill => {
+     {
+        const pnl = parseInt(fill.closedPnl)
+        console.log(fill.closedPnl)
+        netPnL += pnl || 0;
 
-
-                if (typeof fill.coin === "string" && fill.coin.startsWith("@")) {
-                    const index = parseInt(fill.coin.slice(1), 10);
-                    if (perpetuals[index] && perpetuals[index].name) {
-                        tradedAssets.add(perpetuals[index].name);
-                    }
-                } else {
-                    tradedAssets.add(fill.coin);
-                }
-            });
-            
+        }
+    })
+               
 
             setData({
                 totalVolume,

@@ -20,8 +20,9 @@ const VertexData = ({ walletAddress }) => {
             const subaccounts = subaccountResponse.data.subaccounts || [];
 
             for (const subaccount of subaccounts) {
+                console.log(subaccount.subaccount)
                 // Fetch matches for volume
-                console.log(subaccount)
+        
                 const ordersUrl = `https://archive.prod.vertexprotocol.com/v1`;
                 const ordersResponse = await axios.post(ordersUrl, {
                     "orders": {
@@ -29,12 +30,15 @@ const VertexData = ({ walletAddress }) => {
                         2
                       ],
                       "subaccount": subaccount.subaccount,
+                      "limit": 500
                     }
                   });
                 const orders = ordersResponse.data.orders || [];
+        
                 orders.forEach(order => { 
-                    const result = parseInt(order.quote_filled)
-                    totalVolume += result / Math.pow(10, 18) || 0;
+              
+                    const result = Math.abs(parseInt(order.quote_filled)) / Math.pow(10, 18)
+                    totalVolume += result || 0;
                 });
 
                 // Fetch events for PnL
@@ -44,15 +48,17 @@ const VertexData = ({ walletAddress }) => {
                       "product_ids": [
                         2
                       ],
-                      "subaccount": "0xa2621c9994d25162946833d48589b8233a04ab4664656661756c740000000000",
-                      "event_types": ["settle_pnl"],
+                      "subaccount": subaccount.subaccount,
+                      "limit": {
+       "raw": 500
+    },
                     }
                   });
                 const events = eventsResponse.data.events || [];
+                console.log(events)
                 const event = events[events.length - 1];
-                console.log(event)
                 
-                        totalPnL = (parseInt(event.post_balance.perp.balance.amount) * parseInt(event.product.perp.oracle_price_x18) - parseInt(event.net_entry_cumulative))
+                        totalPnL = (parseInt(event.post_balance.perp.balance.amount / Math.pow(10, 18)) * parseInt(event.product.perp.oracle_price_x18 / Math.pow(10, 18)) - parseInt(event.net_entry_cumulative / Math.pow(10, 18)))
                         
                     
                
