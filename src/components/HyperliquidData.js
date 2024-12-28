@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const HyperliquidData = ({ walletAddress }) => {
@@ -86,17 +86,30 @@ const HyperliquidData = ({ walletAddress }) => {
         }
     };
 
+    useEffect(() => {
+        fetchHyperliquidData()
+    }, [walletAddress])
     return (
-        <div>
-            <h2>Hyperliquid Data</h2>
-            <button onClick={fetchHyperliquidData}>Fetch Hyperliquid Data</button>
+        <div className="cardMoprh px-[29px] py-[33px] w-[524px] flex flex-col gap-6">
+            <img className="w-[201px] h-auto" src="/hyperliquid.svg"></img>
             {loading && <p>Loading...</p>}
-            {data && (
-                <div>
-                    <p>Total Volume: {data.totalVolume}</p>
-                    <p>Net PnL: {data.netPnL}</p>
-                    <p>Traded Assets: {data.tradedAssets.join(", ")}</p>
+            {data && !loading ? (
+                <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-1">
+                       <span className="text-[18px] leading-[22px] text-[#9CA3AF]"> Total Volume:</span>
+                        <p className="text-[30px] text-white leading-[36px]">{data.totalVolume}</p>
+                    </div>
+                      <div className="flex flex-col gap-1">
+                       <span className="text-[18px] leading-[22px] text-[#9CA3AF]"> Net PnL:</span>
+                        <p className="text-[30px] text-white leading-[36px]">{data.netPnL}</p>
+                    </div>
+                     <div className="flex flex-col gap-1">
+                       <span className="text-[18px] leading-[22px] text-[#9CA3AF]"> Traded Assets:</span>
+                        <p className="text-[30px] text-white leading-[36px]">{data.tradedAssets.join(", ")}</p>
+                    </div>
                 </div>
+            ) : (
+                <div>{!loading ? "No data" : ""}</div>
             )}
         </div>
     );
