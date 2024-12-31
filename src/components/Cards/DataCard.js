@@ -24,21 +24,26 @@ const DataCard = ({ loading, totalVolume, pnl, tradedAssets, imgSrc }) => {
     });
   };
 
+  console.log(tradedAssets);
+
   // If totalVolume is 0, display "No Data Found" for the entire card
   if (totalVolume === 0) {
     return (
       <div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="sm:w-full md:w-[524px] sm:px-4 sm:py-6"
+        className="cardMoprh px-6 py-8 w-full md:w-96 lg:w-[28rem] max-w-[90%] mx-auto flex flex-col gap-6 bg-gray-800 rounded-lg shadow-lg "
+        style={tiltStyle}
       >
-        <div className="cardMoprh px-[29px] py-[33px] w-full flex flex-col gap-6 sm:px-4 sm:py-6">
+        <div className="  ">
           <img
-            className="w-[139.5px] max-w-28 h-auto sm:w-[100px] mx-auto"
+            className="w-28 sm:w-24 h-auto mx-auto"
             src={imgSrc}
             alt="Asset"
           />
-          <p className="text-center sm:text-sm">No Data Found</p>
+        </div>
+        <div className="w-full h-full flex justify-center ">
+          <p className="text-center text-gray-200 sm:text-sm ">No Data Found</p>
         </div>
       </div>
     );
@@ -46,42 +51,49 @@ const DataCard = ({ loading, totalVolume, pnl, tradedAssets, imgSrc }) => {
 
   return (
     <div
-      className="cardMoprh px-[29px] py-[33px] w-[524px]  flex flex-col gap-6"
+      className="cardMoprh px-6 py-8 w-full md:w-96 lg:w-[28rem] max-w-[90%] mx-auto flex flex-col gap-6 bg-gray-800 rounded-lg shadow-lg"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      style={tiltStyle}
     >
-      <img className="w-[139.5px] h-auto" src={imgSrc} alt="Asset" />
-      {loading && <p>Loading...</p>}
-      {!loading ? (
+      <img className="h-auto mx-auto" src={imgSrc} alt="Asset" />
+      {loading ? (
+        <p className="text-center text-gray-400">Loading...</p>
+      ) : (
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
-            <span className="text-[18px] leading-[22px] text-[#9CA3AF]">
-              {" "}
+            <span className="text-sm md:text-base text-gray-400">
               Total Volume:
             </span>
-            <p className="text-[30px] text-white leading-[36px]">
-              {totalVolume}
+            <p className="text-lg md:text-xl text-white ">
+              {totalVolume.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[18px] leading-[22px] text-[#9CA3AF]">
-              {" "}
+            <span className="text-sm md:text-base text-gray-400">
               Total PnL:
             </span>
-            <p className="text-[30px] text-white leading-[36px]">{pnl}</p>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-[18px] leading-[22px] text-[#9CA3AF]">
-              {" "}
-              Traded Assets:
-            </span>
-            <p className="text-[30px] text-white leading-[36px]">
-              {tradedAssets.join(", ")}
+            <p className="text-lg md:text-xl text-white ">
+              {pnl.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </p>
           </div>
+          {tradedAssets.length !== 0 && (
+            <div className="flex flex-col gap-1">
+              <span className="text-sm md:text-base text-gray-400">
+                Traded Assets:
+              </span>
+              <p className="text-lg md:text-xl text-white ">
+                {tradedAssets.join(", ")}
+              </p>
+            </div>
+          )}
         </div>
-      ) : (
-        <div>{!loading ? "No data" : ""}</div>
       )}
     </div>
   );

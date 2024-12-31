@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaClipboard,
-  FaDownload,
-} from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+import { FaRegClipboard } from "react-icons/fa6";
+import { IoCopyOutline } from "react-icons/io5";
+import { MdDownload } from "react-icons/md";
 
 export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -70,7 +69,7 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
   const currentCard = badges[currentCardIndex];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[75vh] text-white p-4 rounded-lg shadow-white">
+    <div className="flex flex-col items-center justify-center  text-white p-4 rounded-lg shadow-white">
       <div
         className="w-full max-w-[400px] flex flex-col relative"
         onTouchStart={handleTouchStart}
@@ -89,52 +88,36 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
 
         {/* Card Content */}
         <div className="flex-grow flex items-center justify-center relative mt-4">
-          <div className="p-4 bg-black/50 rounded-lg w-full max-w-[95%] md:max-w-[400px]">
+          <div className="p-4  rounded-lg w-full max-w-[95%] md:max-w-[400px]">
             {currentCard.imageUrl && (
-              <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] rounded-xl">
+              <div className="md:w-[350px] h-[350px] sm:h-[350px] sm:w-full  md:h-[450px] rounded-xl ">
                 <img
                   src={currentCard.imageUrl}
                   alt={currentCard.name}
-                  className="object-cover h-full w-full rounded-lg"
+                  className="object-fill h-full w-full rounded-lg "
                 />
               </div>
-            )}
-
-            <h2 className="text-lg font-bold mt-2 text-left">
-              {currentCard.name}
-            </h2>
-            <p className="text-sm mt-1 text-left">{currentCard.description}</p>
-
-            {currentCard?.type === "volume" && (
-              <p className="text-sm mt-1 text-left">
-                Total Volume: {currentCard?.totalVolume?.toFixed(2)}
-              </p>
-            )}
-            {currentCard?.type === "pnl" && (
-              <p className="text-sm mt-1 text-left">
-                Total PnL: {currentCard?.totalPnL}
-              </p>
             )}
 
             {/* Button container */}
             <div className="flex space-x-4 justify-start mt-3">
               <button
-                className="text-emerald-700 hover:text-blue-400 transition"
+                className="text-white hover:text-emerald-400 transition"
                 onClick={(event) => {
                   event.stopPropagation();
                   handleCopyImage(currentCard.imageUrl);
                 }}
               >
-                <FaClipboard size={20} />
+                <IoCopyOutline size={22} />
               </button>
               <button
-                className="text-emerald-700 hover:text-blue-400 transition"
+                className="text-white hover:text-emerald-400 transition"
                 onClick={(event) => {
                   event.stopPropagation();
                   downloadImage(currentCard.imageUrl, currentCard.name);
                 }}
               >
-                <FaDownload size={20} />
+                <MdDownload size={24} />
               </button>
             </div>
           </div>

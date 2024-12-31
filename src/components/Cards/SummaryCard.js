@@ -2,15 +2,16 @@ import { copyImageToClipboard } from "copy-image-clipboard";
 import React, { useEffect, useState } from "react";
 import { CardStepper } from "./Profile";
 import hello2Image from "../assets/hlLoyal.png";
-import explorer from "../assets/explorer.jpeg";
-import tenMil from "../assets/10mVol.jpeg";
-import fiveMil from "../assets/5mVol.jpeg";
-import twoMil from "../assets/2mVol.jpeg";
+import explorer from "../assets/explorer.png";
+import tenMil from "../assets/10mVol.png";
+import fiveMil from "../assets/5mVol.png";
+import oneMilVol from "../assets/1milVol.png";
 import dydx from "../assets/dydx.png";
 import tenkPnL from "../assets/10kPnL.png";
 import hundredkPnL from "../assets/100kPnL.png";
-import fiveHPnL from "../assets/500kPnL.png";
-import oneMilPnL from "../assets/1milPnL.jpeg";
+import fiftykPnL from "../assets/50kPnL.png";
+import fiveHPnL from "../assets/500kPnL1.png";
+import oneMilPnL from "../assets/1milPnL.png";
 import newbie from "../assets/newbie.png";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -77,10 +78,10 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
           description: "Master of trades, total volume exceeding $5M.",
           totalVolume: summaryData.totalVolume,
         });
-      } else if (summaryData.totalVolume >= 2000000) {
+      } else if (summaryData.totalVolume >= 1000000) {
         newBadges.push({
           name: "Big Shot",
-          imageUrl: twoMil,
+          imageUrl: oneMilVol,
           type: "volume",
           description:
             "Breaking into the big leagues with over $2M in trading volume.",
@@ -110,6 +111,14 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
         newBadges.push({
           name: "Veteran",
           imageUrl: hundredkPnL,
+          type: "pnl",
+          description: "Trading prowess with over $100k in profits.",
+          totalPnL: summaryData.totalPnL,
+        });
+      } else if (summaryData.totalPnL >= 50000) {
+        newBadges.push({
+          name: "Veteran",
+          imageUrl: fiftykPnL,
           type: "pnl",
           description: "Trading prowess with over $100k in profits.",
           totalPnL: summaryData.totalPnL,
@@ -165,12 +174,24 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
       });
     }
 
+    if (
+      !newBadges.some(
+        (badge) => badge.type === "volume" || badge.type === "pnl"
+      )
+    ) {
+      newBadges.push({
+        name: "Fresh Trader",
+        imageUrl: newbie,
+        description: "Starting your journey in the world of perpetuals.",
+      });
+    }
+
     setBadges(newBadges);
     setLoading(false);
   }, [summaryData]);
 
   return (
-    <div className="min-h-screen p-8 flex flex-col items-center rounded-xl  overflow-auto">
+    <div className=" p-8 flex flex-col items-center rounded-xl  overflow-auto">
       <div className="flex flex-col items-center max-w-full">
         {!loading && badges.length > 0 ? (
           <CardStepper
@@ -183,7 +204,7 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
         )}
       </div>
 
-      <div className="flex justify-center mt-6 gap-6 items-center w-full flex-wrap">
+      <div className="flex justify-center mt-4 gap-6 items-center w-full flex-wrap">
         <button
           className="p-4 text-white font-semibold rounded-2xl bg-teal-900 backdrop-blur-[30px] w-60 flex justify-center items-center gap-2"
           onClick={handleTweet}

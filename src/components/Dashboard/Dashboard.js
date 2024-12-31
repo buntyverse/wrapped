@@ -46,7 +46,7 @@ const Dashboard = ({ walletAddress, handleBackButtonClick }) => {
     <div className="dashboard-container">
       {/* Persistent Back Button */}
       <button className="back-button" onClick={handleBackClick}>
-        <MdArrowBackIos size={26} />
+        <MdArrowBackIos size={24} />
         <p>Back</p>
       </button>
 
@@ -82,7 +82,6 @@ const Dashboard = ({ walletAddress, handleBackButtonClick }) => {
             />
           </div>
         )}
-
         <div className="next-button-container">
           {!showNewComponent ? (
             <button className="next-button" onClick={handleNextClick}>
