@@ -1,6 +1,94 @@
-.cardMoprh{
+.cardMoprh {
   border-radius: 15px;
   border: 2px solid rgba(255, 255, 255, 0.05);
-  background: rgba(11, 18, 22, 0.40);
+  background: rgba(11, 18, 22, 0.4);
   backdrop-filter: blur(30.399999618530273px);
+}
+
+/* General Styling */
+.dashboard-container {
+  position: relative;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+/* Back Button */
+.back-button {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #134e4a;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.back-button p {
+  margin: 0;
+}
+
+/* Main Content Styling */
+.data-container {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+}
+
+.data-section,
+.badge-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Next Button */
+.next-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.next-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #134e4a;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .data-container {
+    padding: 2rem 4rem;
+  }
+
+  .data-section,
+  .badge-section {
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .data-container {
+    padding: 3rem 6rem;
+  }
+
+  .next-button {
+    font-size: 1.25rem;
+  }
 }

@@ -138,7 +138,16 @@ const HyperliquidData = ({ walletAddress, updateTotals }) => {
           imgSrc="/hyperliquid.svg"
         />
       ) : (
-        <div>{!loading ? "No data" : ""}</div>
+        <div className="sm:w-full md:w-[524px] sm:px-4 sm:py-6">
+          <div className="cardMoprh px-[29px] py-[33px] w-full flex flex-col gap-6 sm:px-4 sm:py-6">
+            <img
+              className="w-[139.5px] max-w-28 h-auto sm:w-[100px] mx-auto"
+              src="/hyperliquid.svg"
+              alt="Asset"
+            />
+            <p className="text-center sm:text-sm">No Data Found</p>
+          </div>
+        </div>
       )}
     </>
   );

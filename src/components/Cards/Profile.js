@@ -70,13 +70,13 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
   const currentCard = badges[currentCardIndex];
 
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-[75vh] text-white p-4 rounded-lg shadow-white"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className="w-[400px] h-[600px] flex flex-col relative">
+    <div className="flex flex-col items-center justify-center min-h-[75vh] text-white p-4 rounded-lg shadow-white">
+      <div
+        className="w-full max-w-[400px] flex flex-col relative"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Progress Bar */}
         <div className="w-full h-2 bg-gray-600 mt-2 rounded-full overflow-hidden">
           <div
@@ -88,10 +88,10 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
         </div>
 
         {/* Card Content */}
-        <div className="flex-grow flex items-center justify-center relative -mt-4">
-          <div className="p-4 bg-black/50 rounded-lg">
+        <div className="flex-grow flex items-center justify-center relative mt-4">
+          <div className="p-4 bg-black/50 rounded-lg w-full max-w-[95%] md:max-w-[400px]">
             {currentCard.imageUrl && (
-              <div className="w-full h-[400px] rounded-xl">
+              <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] rounded-xl">
                 <img
                   src={currentCard.imageUrl}
                   alt={currentCard.name}
@@ -99,20 +99,25 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
                 />
               </div>
             )}
-            <h2 className="text-lg font-bold mt-2">{currentCard.name}</h2>
-            <p className="text-sm mt-1">{currentCard.description}</p>
+
+            <h2 className="text-lg font-bold mt-2 text-left">
+              {currentCard.name}
+            </h2>
+            <p className="text-sm mt-1 text-left">{currentCard.description}</p>
 
             {currentCard?.type === "volume" && (
-              <p className="text-sm mt-1">
-                Total Volume: {currentCard?.totalVolume}
+              <p className="text-sm mt-1 text-left">
+                Total Volume: {currentCard?.totalVolume?.toFixed(2)}
               </p>
             )}
             {currentCard?.type === "pnl" && (
-              <p className="text-sm mt-1">Total PnL: {currentCard?.totalPnL}</p>
+              <p className="text-sm mt-1 text-left">
+                Total PnL: {currentCard?.totalPnL}
+              </p>
             )}
 
             {/* Button container */}
-            <div className="flex space-x-4 z-10 mt-3">
+            <div className="flex space-x-4 justify-start mt-3">
               <button
                 className="text-emerald-700 hover:text-blue-400 transition"
                 onClick={(event) => {
@@ -134,10 +139,10 @@ export const CardStepper = ({ badges, handleCopyImage, downloadImage }) => {
             </div>
           </div>
         </div>
-
-        {/* Previous/Next Buttons */}
       </div>
-      <div className="absolute inset-0 flex z-0 h-2/3 lg:h-2/5 top-32">
+
+      {/* Previous/Next Buttons */}
+      <div className="absolute inset-0 flex z-0 h-1/3 lg:h-2/5 top-32">
         {/* Left arrow button */}
         <div
           className="w-1/2 cursor-pointer z-1 flex items-center justify-start pl-4"

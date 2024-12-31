@@ -46,7 +46,7 @@ const DataCard = ({ loading, totalVolume, pnl, tradedAssets, imgSrc }) => {
 
   return (
     <div
-      className="cardMoprh px-[29px] py-[33px] w-[524px] flex flex-col gap-6"
+      className="cardMoprh px-[29px] py-[33px] w-[524px]  flex flex-col gap-6"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

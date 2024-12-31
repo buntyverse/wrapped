@@ -43,19 +43,17 @@ const Dashboard = ({ walletAddress, handleBackButtonClick }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="dashboard-container">
       {/* Persistent Back Button */}
-      <button
-        className="absolute top-4 left-4 p-4 text-white font-semibold rounded-2xl  w-14 z-50 xl:ml-28  -mt-6 "
-        onClick={handleBackClick}
-      >
-        <MdArrowBackIos size={32} />
+      <button className="back-button" onClick={handleBackClick}>
+        <MdArrowBackIos size={26} />
+        <p>Back</p>
       </button>
 
       {/* Main Content */}
-      <div className="dataDiv px-4 md:px-8 lg:px-16 pt-8 md:pt-12 -m-28 ">
+      <div className="data-container">
         {!showNewComponent ? (
-          <div className="flex flex-wrap gap-6 justify-center 2xl:ml-48 2xl:w-3/4 2xl:pl-32 mt-32">
+          <div className="data-section">
             {walletAddress && (
               <HyperliquidData
                 walletAddress={walletAddress}
@@ -76,7 +74,7 @@ const Dashboard = ({ walletAddress, handleBackButtonClick }) => {
             )}
           </div>
         ) : (
-          <div className="flex flex-wrap gap-6 justify-center">
+          <div className="badge-section">
             <BadgeCard
               walletAddress={walletAddress}
               summaryData={summaryData}
@@ -85,18 +83,13 @@ const Dashboard = ({ walletAddress, handleBackButtonClick }) => {
           </div>
         )}
 
-        <div className="flex justify-center mt-6 md:mt-20 mb-20">
+        <div className="next-button-container">
           {!showNewComponent ? (
-            <button
-              className="relative p-4 text-white font-semibold rounded-2xl bg-teal-900 -mt-16 backdrop-blur-[30px] w-40 flex justify-end items-center gap-2"
-              onClick={handleNextClick}
-            >
+            <button className="next-button" onClick={handleNextClick}>
               See badges
               <FaAngleRight size={24} />
             </button>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

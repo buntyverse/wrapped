@@ -11,13 +11,12 @@ import tenkPnL from "../assets/10kPnL.png";
 import hundredkPnL from "../assets/100kPnL.png";
 import fiveHPnL from "../assets/500kPnL.png";
 import oneMilPnL from "../assets/1milPnL.jpeg";
-
 import newbie from "../assets/newbie.png";
 import { FaXTwitter } from "react-icons/fa6";
 
 const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
   const [copied, setCopied] = useState(false);
-  const [badges, setBadges] = useState(new Set());
+  const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleCopyImage = async (imageUrl) => {
@@ -31,7 +30,7 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
   };
 
   const handleTweet = () => {
-    const tweetUrl = `https://twitter.com/intent/tweet?text=Just%20checked%20out%20my%20journey%20with%20perpetuals%20so%20far%20on%20Filament%20Wrapped%20%F0%9F%93%88%20%20check%20yours%20here%3A%20%20%20wrapped.filament.finance`;
+    const tweetUrl = `https://twitter.com/intent/tweet?text=Just%20checked%20out%20my%20journey%20with%20perpetuals%20so%20far%20on%20Filament%20Wrapped%20%F0%9F%93%88%20%20check%20yours%20here%3A%20wrapped.filament.finance`;
     window.open(tweetUrl, "_blank");
   };
 
@@ -57,176 +56,144 @@ const BadgeCard = ({ walletAddress, summaryData, handleBackClick }) => {
 
   useEffect(() => {
     setLoading(true);
-    const badgeAlloter = () => {
-      const newBadges = [];
 
-      if (summaryData?.totalVolume) {
-        if (summaryData.totalVolume >= 10000000) {
-          newBadges.push({
-            name: "Market Maker",
-            imageUrl: tenMil,
-            type: "volume",
-            totalVolume: summaryData.totalVolume,
-            description:
-              "Dominating the markets with over $10M in trading volume.",
-          });
-        } else if (summaryData.totalVolume >= 5000000) {
-          newBadges.push({
-            name: "The Whale",
-            imageUrl: fiveMil,
-            type: "volume",
-            description: "Master of trades, total volume exceeding $5M.",
-            totalVolume: summaryData.totalVolume,
-          });
-        } else if (summaryData.totalVolume >= 2000000) {
-          newBadges.push({
-            name: "Big Shot",
-            imageUrl: twoMil,
-            type: "volume",
-            description:
-              "For those breaking into the big leagues with over $2M in trading volume.",
-            totalVolume: summaryData.totalVolume,
-          });
-        }
-      }
+    const newBadges = [];
 
-      if (summaryData?.totalPnL) {
-        if (summaryData.totalPnL >= 1000000) {
-          newBadges.push({
-            name: "Oligarch",
-            imageUrl: oneMilPnL,
-            type: "pnl",
-            description: "The crème de la crème, earning over $1M in profits.",
-            totalPnL: summaryData.totalPnL,
-          });
-        } else if (summaryData.totalPnL >= 500000) {
-          newBadges.push({
-            name: "Baller",
-            imageUrl: fiveHPnL,
-            type: "pnl",
-            description:
-              "The crème de la crème, earning over $500k in profits.",
-            totalPnL: summaryData.totalPnL,
-          });
-        } else if (summaryData.totalPnL >= 100000) {
-          newBadges.push({
-            name: "Veteran",
-            imageUrl: hundredkPnL,
-            type: "pnl",
-            totalPnL: summaryData.totalPnL,
-            description:
-              "Your trading prowess shines with over $100k in profits.",
-          });
-        } else if (summaryData.totalPnL >= 10000) {
-          newBadges.push({
-            name: "Fresh Money/New Money",
-            imageUrl: tenkPnL,
-            type: "pnl",
-            totalPnL: summaryData.totalPnL,
-            description: "For achieving $10k+ in realized profits.",
-          });
-        }
-      }
-
-      if (
-        summaryData?.dexChecked.includes("hyperliquid") &&
-        summaryData.dexChecked.includes("dydx") &&
-        summaryData.dexChecked.includes("vertex")
-      ) {
+    if (summaryData?.totalVolume) {
+      if (summaryData.totalVolume >= 10000000) {
         newBadges.push({
-          name: "explorer badge",
-          imageUrl:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXsaqSdj88PK6vAoFLYqyhFfaamHrVCOpt6_S4l-sBLEgS_N1TzJ5vkeZjHt-qIa3Ene8&usqp=CAU",
-        });
-      } else if (
-        summaryData.dexChecked.includes("hyperliquid") &&
-        !summaryData.dexChecked.includes("dydx") &&
-        !summaryData.dexChecked.includes("vertex")
-      ) {
-        newBadges.push({
-          name: "HL Maximalist",
-          description: "Dedicated solely to the Hyperliquid ecosystem.",
-          imageUrl: hello2Image,
-        });
-      } else if (summaryData.dexChecked.length >= 2) {
-        newBadges.push({
-          name: "Perp Explorer",
+          name: "Market Maker",
+          imageUrl: tenMil,
+          type: "volume",
           description:
-            "An adventurer who has conquered Vertex, Hyperliquid, and DYDX.",
-          imageUrl: explorer,
+            "Dominating the markets with over $10M in trading volume.",
+          totalVolume: summaryData.totalVolume,
         });
-      } else if (
-        summaryData.dexChecked.includes("dydx") &&
-        !summaryData.dexChecked.includes("hyperliquid") &&
-        !summaryData.dexChecked.includes("vertex")
-      ) {
+      } else if (summaryData.totalVolume >= 5000000) {
         newBadges.push({
-          name: "DYDX Hedgie",
-          description:
-            "Loyal to the DYDX universe, trading exclusively on this platform.",
-          imageUrl: dydx,
+          name: "The Whale",
+          imageUrl: fiveMil,
+          type: "volume",
+          description: "Master of trades, total volume exceeding $5M.",
+          totalVolume: summaryData.totalVolume,
         });
-      } else if (
-        !summaryData.dexChecked.includes("dydx") &&
-        !summaryData.dexChecked.includes("hyperliquid") &&
-        !summaryData.dexChecked.includes("vertex")
-      ) {
+      } else if (summaryData.totalVolume >= 2000000) {
         newBadges.push({
-          name: "Fresh Trader/Meat New Explorer",
+          name: "Big Shot",
+          imageUrl: twoMil,
+          type: "volume",
           description:
-            "Starting your journey in the world of perpetuals. Welcome aboard!",
-          imageUrl: newbie,
+            "Breaking into the big leagues with over $2M in trading volume.",
+          totalVolume: summaryData.totalVolume,
         });
       }
+    }
 
-      setBadges((prevBadges) => {
-        const updatedBadges = new Set(prevBadges);
-        newBadges.forEach((badge) => updatedBadges.add(JSON.stringify(badge)));
-        return updatedBadges;
+    if (summaryData?.totalPnL) {
+      if (summaryData.totalPnL >= 1000000) {
+        newBadges.push({
+          name: "Oligarch",
+          imageUrl: oneMilPnL,
+          type: "pnl",
+          description: "The crème de la crème, earning over $1M in profits.",
+          totalPnL: summaryData.totalPnL,
+        });
+      } else if (summaryData.totalPnL >= 500000) {
+        newBadges.push({
+          name: "Baller",
+          imageUrl: fiveHPnL,
+          type: "pnl",
+          description: "Earning over $500k in profits.",
+          totalPnL: summaryData.totalPnL,
+        });
+      } else if (summaryData.totalPnL >= 100000) {
+        newBadges.push({
+          name: "Veteran",
+          imageUrl: hundredkPnL,
+          type: "pnl",
+          description: "Trading prowess with over $100k in profits.",
+          totalPnL: summaryData.totalPnL,
+        });
+      } else if (summaryData.totalPnL >= 10000) {
+        newBadges.push({
+          name: "Fresh Money",
+          imageUrl: tenkPnL,
+          type: "pnl",
+          description: "Achieved $10k+ in realized profits.",
+          totalPnL: summaryData.totalPnL,
+        });
+      }
+    }
+
+    if (
+      summaryData?.dexChecked.includes("hyperliquid") &&
+      summaryData.dexChecked.includes("dydx") &&
+      summaryData.dexChecked.includes("vertex")
+    ) {
+      newBadges.push({
+        name: "Explorer Badge",
+        imageUrl: explorer,
+        description: "Conquered Vertex, Hyperliquid, and DYDX.",
       });
+    } else if (
+      summaryData.dexChecked.includes("hyperliquid") &&
+      !summaryData.dexChecked.includes("dydx") &&
+      !summaryData.dexChecked.includes("vertex")
+    ) {
+      newBadges.push({
+        name: "HL Maximalist",
+        imageUrl: hello2Image,
+        description: "Dedicated solely to the Hyperliquid ecosystem.",
+      });
+    } else if (summaryData.dexChecked.length >= 2) {
+      newBadges.push({
+        name: "Perp Explorer",
+        imageUrl: explorer,
+        description: "Adventurer conquering multiple platforms.",
+      });
+    } else if (summaryData.dexChecked.includes("dydx")) {
+      newBadges.push({
+        name: "DYDX Hedgie",
+        imageUrl: dydx,
+        description: "Trading exclusively on DYDX.",
+      });
+    } else {
+      newBadges.push({
+        name: "Fresh Trader",
+        imageUrl: newbie,
+        description: "Starting your journey in the world of perpetuals.",
+      });
+    }
 
-      setLoading(false);
-    };
-
-    badgeAlloter();
+    setBadges(newBadges);
+    setLoading(false);
   }, [summaryData]);
 
   return (
-    <div className="  min-h-screen p-8 flex flex-col items-center rounded-xl ">
-      {/* Badges Section */}
-      <div className="flex justify-center align-middle">
-        {!loading && badges.size !== 0 ? (
+    <div className="min-h-screen p-8 flex flex-col items-center rounded-xl  overflow-auto">
+      <div className="flex flex-col items-center max-w-full">
+        {!loading && badges.length > 0 ? (
           <CardStepper
-            badges={Array.from(badges).map((badge) => JSON.parse(badge))}
+            badges={badges}
             handleCopyImage={handleCopyImage}
             downloadImage={downloadImage}
           />
         ) : (
-          <></>
+          <p>Loading badges...</p>
         )}
       </div>
 
-      {/* Tweet Button */}
-      <div className="flex justify-center mt-4 gap-6 items-center">
-        {/* <button
-          className="bg-gradient-to-b from-teal-400 to-teal-950 text-white font-bold py-2 px-4 rounded-lg w-32"
-          onClick={handleBackClick}
-        >
-          Back
-        </button> */}
+      <div className="flex justify-center mt-6 gap-6 items-center w-full flex-wrap">
         <button
-          className="relative p-4 text-white font-semibold rounded-2xl bg-teal-900 lg:-mt-20 -mt-10 backdrop-blur-[30px] w-60 flex justify-center items-center gap-2"
+          className="p-4 text-white font-semibold rounded-2xl bg-teal-900 backdrop-blur-[30px] w-60 flex justify-center items-center gap-2"
           onClick={handleTweet}
         >
-          {/* Adjust the size of the icon */}
-          Share On
-          <FaXTwitter className="text-xl" />
+          Share On <FaXTwitter className="text-xl" />
         </button>
       </div>
 
-      {/* Copy Confirmation */}
       {copied && (
-        <div className="mt-4 text-center text-green-500">
+        <div className="mt-4 text-green-500 text-center">
           <p>Copied to clipboard!</p>
         </div>
       )}
